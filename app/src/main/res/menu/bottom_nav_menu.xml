@@ -4,26 +4,26 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title=""/>
 
     <item
         android:id="@+id/nav_workouts"
         android:icon="@drawable/ic_workout"
-        android:title="workout"/>
+        android:title=""/>
 
     <item
         android:id="@+id/nav_nutrition"
         android:icon="@drawable/ic_nutrition"
-        android:title="nutrition"/>
+        android:title=""/>
 
     <item
         android:id="@+id/nav_progress"
         android:icon="@drawable/ic_progression"
-        android:title="progress"/>
+        android:title=""/>
 
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/ic_profile"
-        android:title="profile"/>
+        android:title=""/>
 
 </menu>

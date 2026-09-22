@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    tools:context=".StartWorkoutActivity">
+
+
+    <!-- Top workout header -->
+
+    <LinearLayout
+        android:id="@+id/workoutHeader"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:background="#0B5438"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="20dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!-- Back button and title -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Back"
+                android:padding="8dp"
+                android:src="@drawable/ic_back"
+                android:tint="@android:color/white" />
+
+            <TextView
+                android:id="@+id/workoutTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="62dp"
+                android:layout_weight="1"
+                android:text="Full Body Strength"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+
+        <!-- Exercise progress -->
+
+        <TextView
+            android:id="@+id/exerciseProgressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:text="3 / 8"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+
+
+        <!-- Progress bar -->
+
+        <ProgressBar
+            android:id="@+id/workoutProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="8dp"
+            android:max="8"
+            android:progress="3"
+            android:progressTint="#A6D83E"
+            android:backgroundTint="#48705D" />
+
+    </LinearLayout>
+
+
+    <!-- Current exercise name -->
+
+    <TextView
+        android:id="@+id/currentExerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:text="Goblet Squat"
+        android:textColor="#1F2933"
+        android:textSize="22sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/workoutHeader" />
+
+
+    <!-- Exercise image -->
+
+    <ImageView
+        android:id="@+id/currentExerciseImage"
+        android:layout_width="0dp"
+        android:layout_height="210dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:contentDescription="Current exercise"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_workout"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currentExerciseName" />
+
+
+    <!-- Exercise information -->
+
+    <LinearLayout
+        android:id="@+id/exerciseInformation"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="35dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@id/currentExerciseImage">
+
+
+        <!-- Reps -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/repsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:textColor="#1F2933"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reps"
+                android:textColor="#777777"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+
+        <!-- Weight -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/weightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textColor="#1F2933"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:textColor="#777777"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <!-- Timer -->
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/timer_circle"
+        android:gravity="center"
+        android:text="24"
+        android:textColor="#1F2933"
+        android:textSize="36sp"
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/exerciseInformation" />
+
+
+    <!-- Seconds label -->
+
+    <TextView
+        android:id="@+id/timerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SEC"
+        android:textColor="#777777"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@id/timerText"
+        app:layout_constraintEnd_toEndOf="@id/timerText"
+        app:layout_constraintStart_toStartOf="@id/timerText"
+        android:layout_marginBottom="24dp"/>
+
+
+    <!-- Pause button -->
+
+    <ImageButton
+        android:id="@+id/pauseButton"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="22dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Pause workout"
+        android:src="@android:drawable/ic_media_pause"
+        android:tint="#1F2933"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!-- Next button -->
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="125dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#A6D83E"
+        android:text="Next  ›"
+        android:textAllCaps="false"
+        android:textColor="#1F2933"
+        android:textSize="14sp"
+        android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
