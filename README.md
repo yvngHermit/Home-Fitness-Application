@@ -1,1 +1,5 @@
 # Home-Fitness-Application
+
+we've created an exercise application which has the purpose to help users keep in shape and health, our application has built in exercise routines that helps in terms of accessibility so user are able to access exercise routines whenever, we also have a calories progress bar that helps us gain visuals on how many calories we are losing or gaining, another function is diet, we have a diet section which helps us pick a variety of help goods and also displays the amount of protein/fats/calories etc certain meals contain. meaning the purpose of this application to pursue a healthy life
+
+the utilization of GitHub in this project was a bit complex but we got the hang of it, we simple had a main branch which is where all term members cloned the application, each term member had their own branch. in each of those branches every term member was able to commit their code to GitHub after adding changes to the cloned project, which would give them the ability to pull request the code in order to merge to the main.
