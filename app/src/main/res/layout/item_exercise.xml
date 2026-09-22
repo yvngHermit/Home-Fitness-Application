@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="95dp"
+    android:layout_marginBottom="12dp"
+
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+
+        <!-- Exercise image -->
+
+        <ImageView
+            android:id="@+id/exerciseImage"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="Exercise"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_workout" />
+
+
+        <!-- Exercise information -->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/exerciseName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Goblet Squat"
+                android:textColor="#1F2933"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/exerciseMuscle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Legs • Glutes"
+                android:textColor="#777777"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/exerciseEquipment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Equipment: Dumbbell"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+
+        <!-- Arrow -->
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="›"
+            android:textColor="#777777"
+            android:textSize="28sp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

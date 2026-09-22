@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1032494177571",
+    "project_id": "homefitness-918db",
+    "storage_bucket": "homefitness-918db.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1032494177571:android:2654db5cceaf5912968096",
+        "android_client_info": {
+          "package_name": "com.example.homefitness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1032494177571-js26ai028tbv1259cas7vm3eu0e4pcni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJnQEKvj6x32Dd7WLIrgcaTJGKsiuZqnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1032494177571-js26ai028tbv1259cas7vm3eu0e4pcni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
