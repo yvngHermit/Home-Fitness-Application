@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="24dp">
+
+        <!-- Header: back arrow + centered title -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@android:drawable/ic_media_previous"
+                android:contentDescription="Back"
+                app:tint="#111111"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+
+            <TextView
+                android:id="@+id/mealPlanTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Today’s Meal Plan"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#111111"/>
+        </RelativeLayout>
+
+        <!-- Summary row: Consumed | Ring | Remaining -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp">
+
+            <!-- Consumed -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1,180"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Consumed"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <!-- Circular progress ring -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.2"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/calorieProgress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center_horizontal"
+                    android:indeterminate="false"
+                    android:progress="59"
+                    android:max="100"
+                    android:progressTint="#55FF00"/>
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="59%"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#111111"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="of 2,000 kcal"
+                        android:textSize="10sp"
+                        android:textColor="#9E9E9E"/>
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Remaining -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="820"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Remaining"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="kcal"
+                    android:textSize="12sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Breakfast -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Breakfast"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:scaleType="centerCrop"
+                android:contentDescription="Oats with Banana"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Oats with Banana"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="350 kcal"
+                    android:textSize="13sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="Open"
+                app:tint="#BDBDBD"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+        </LinearLayout>
+
+        <!-- Lunch -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lunch"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:scaleType="centerCrop"
+                android:contentDescription="Grilled Chicken Bowl"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grilled Chicken Bowl"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="420 kcal"
+                    android:textSize="13sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="Open"
+                app:tint="#BDBDBD"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+        </LinearLayout>
+
+        <!-- Dinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dinner"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:scaleType="centerCrop"
+                android:contentDescription="Beef Stir Fry"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Beef Stir Fry"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="320 kcal"
+                    android:textSize="13sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="Open"
+                app:tint="#BDBDBD"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+        </LinearLayout>
+
+        <!-- Snack -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Snack"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#111111"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:scaleType="centerCrop"
+                android:contentDescription="Greek Yoghurt &amp; Berries"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Greek Yoghurt &amp; Berries"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#111111"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="90 kcal"
+                    android:textSize="13sp"
+                    android:textColor="#9E9E9E"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_media_play"
+                android:contentDescription="Open"
+                app:tint="#BDBDBD"
+                xmlns:app="http://schemas.android.com/apk/res-auto"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
