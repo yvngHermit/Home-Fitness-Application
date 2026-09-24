@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.homefitness.api.RetrofitInstance
 import com.example.homefitness.databinding.ActivityHomepageBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -36,12 +38,17 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomepageBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Sign Out Button click listener
+        binding.signoutButton.setOnClickListener {
+            signOutUser()
+        }
+
         // Bottom Navigation Setup
         setupBottomNavigation()
 
         loadUser()
 
-        // Start Today's Workout Button (Matches default XML structure if ID isn't set, otherwise add android:id)
+        // Start Today's Workout Button
         binding.root.findViewById<android.widget.Button>(R.id.loginButton)?.setOnClickListener {
             launchWorkout()
         } ?: run {
@@ -58,7 +65,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
-        val bottomNav = binding.bottomNavigation.root as? BottomNavigationView
+        val bottomNav = binding.root.findViewById<BottomNavigationView>(R.id.bottomNavigation)
+            ?: binding.bottomNavigation.root as? BottomNavigationView
+
         bottomNav?.selectedItemId = R.id.nav_home
 
         bottomNav?.setOnItemSelectedListener { item ->
@@ -87,7 +96,6 @@ class HomeActivity : AppCompatActivity() {
             .document(user.uid)
             .get()
             .addOnSuccessListener { document ->
-
                 val name = document.getString("name")
                     ?: user.displayName
                     ?: "User"
@@ -124,9 +132,14 @@ class HomeActivity : AppCompatActivity() {
                 val response = RetrofitInstance.wgerApi.getExercises()
                 if (response.isSuccessful && response.body()?.results?.isNotEmpty() == true) {
                     val exercise = response.body()!!.results.random()
-                    todayWorkoutId = exercise.id
-                    todayWorkoutName = exercise.name
-                    saveTodayWorkout(exercise.id, exercise.name)
+
+                    // Safely unwrap nullable values using the Elvis operator (?:)
+                    val validId = exercise.id ?: 0
+                    val validName = exercise.name ?: "Daily Exercise"
+
+                    todayWorkoutId = validId
+                    todayWorkoutName = validName
+                    saveTodayWorkout(validId, validName)
                 } else {
                     useDefaultWorkout()
                 }
@@ -153,5 +166,28 @@ class HomeActivity : AppCompatActivity() {
 
     private fun getTodayDate(): String {
         return SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+    }
+
+    private fun signOutUser() {
+        // 1. Firebase Sign Out
+        auth.signOut()
+
+        // 2. Google Client Sign Out
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("1032494177571-js26ai028tbv1259cas7vm3eu0e4pcni.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        googleSignInClient.signOut().addOnCompleteListener {
+            Toast.makeText(this, "Signed out successfully", Toast.LENGTH_SHORT).show()
+
+            // 3. Return to Login screen (MainActivity)
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
     }
 }

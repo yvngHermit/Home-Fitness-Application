@@ -49,7 +49,7 @@
         android:hint="Description (Optional)"
         android:inputType="textMultiLine" />
 
-    <!-- Exercises Selection List -->
+    <!-- Exercises Selection List Header -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,12 +58,14 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
+    <!-- RecyclerView with item_select_exercise preview -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/item_select_exercise" />
 
     <!-- Save Workout Button -->
     <Button
@@ -71,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:text="Save Workout"
-        android:backgroundTint="#A6D83E"/>
+        android:backgroundTint="#A6D83E"
+        android:text="Save Workout" />
 
 </LinearLayout>

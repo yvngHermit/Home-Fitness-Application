@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homefitness.adapters.ExerciseAdapter
 import com.example.homefitness.api.RetrofitInstance
 import com.example.homefitness.databinding.ActivityWorkoutListBinding
+import com.example.homefitness.models.WgerExercise
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
 
@@ -30,7 +31,6 @@ class WorkoutListActivity : AppCompatActivity() {
 
         category = intent.getStringExtra("category") ?: "Full Body"
 
-        // Direct Bottom Navigation Setup
         setupBottomNavigation()
 
         binding.workoutCategoryTitle.text = category
@@ -74,14 +74,36 @@ class WorkoutListActivity : AppCompatActivity() {
     private fun loadExercises() {
         lifecycleScope.launch {
             try {
-                val response = RetrofitInstance.wgerApi.getExercises()
+                val categoryId = getPrimaryCategoryId(category)
+
+                // Fetch exercises with a limit of 100
+                val response = RetrofitInstance.wgerApi.getExercises(
+                    language = 2,
+                    limit = 100,
+                    categoryId = categoryId
+                )
 
                 if (response.isSuccessful && response.body() != null) {
-                    val allExercises = response.body()!!.results
-                    val exercises = filterExercises(allExercises)
+                    var rawExercises = response.body()!!.results
 
-                    adapter.submitList(exercises)
-                    binding.exerciseCountText.text = "${exercises.size} exercises"
+                    // Filter valid named exercises
+                    var validExercises = rawExercises.filter { !it.name.isNullOrBlank() }
+
+                    // If API category filter returned no results, fetch general exercises as fallback
+                    if (validExercises.isEmpty() && categoryId != null) {
+                        val fallbackResponse = RetrofitInstance.wgerApi.getExercises(
+                            language = 2,
+                            limit = 100,
+                            categoryId = null
+                        )
+                        if (fallbackResponse.isSuccessful && fallbackResponse.body() != null) {
+                            val rawFallback = fallbackResponse.body()!!.results.filter { !it.name.isNullOrBlank() }
+                            validExercises = filterExercisesLocally(rawFallback)
+                        }
+                    }
+
+                    adapter.submitList(validExercises)
+                    binding.exerciseCountText.text = "${validExercises.size} exercises"
                 } else {
                     Toast.makeText(
                         this@WorkoutListActivity,
@@ -92,24 +114,40 @@ class WorkoutListActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 Toast.makeText(
                     this@WorkoutListActivity,
-                    "Unable to connect to Wger",
+                    "Unable to connect to Wger: ${e.localizedMessage}",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
     }
 
-    private fun filterExercises(
-        exercises: List<com.example.homefitness.models.WgerExercise>
-    ): List<com.example.homefitness.models.WgerExercise> {
+    private fun getPrimaryCategoryId(categoryName: String): Int? {
+        return when (categoryName) {
+            "Upper Body" -> 11 // Chest
+            "Lower Body" -> 9  // Legs
+            "Core"       -> 10 // Abs
+            "Cardio"     -> 10 // Fallback ID for Cardio search
+            else         -> null // "Full Body" or unspecified -> fetch overall list
+        }
+    }
 
+    private fun filterExercisesLocally(exercises: List<WgerExercise>): List<WgerExercise> {
         return when (category) {
-            "Full Body" -> exercises
-            "Upper Body" -> exercises.filter { it.category in listOf(8, 11, 12, 13) }
-            "Lower Body" -> exercises.filter { it.category in listOf(9, 14) }
-            "Core" -> exercises.filter { it.category == 10 }
-            "Cardio" -> exercises.filter { it.category == 15 }
-            else -> exercises
+            "Full Body"  -> exercises
+            "Upper Body" -> exercises.filter { extractCategoryId(it.category) in listOf(8, 11, 12, 13) }
+            "Lower Body" -> exercises.filter { extractCategoryId(it.category) in listOf(9, 14) }
+            "Core"       -> exercises.filter { extractCategoryId(it.category) == 10 }
+            "Cardio"     -> exercises.filter { extractCategoryId(it.category) in listOf(8, 9, 10) }
+            else         -> exercises
+        }
+    }
+
+    // Helper to extract category ID whether it's returned as an Int or Map/Category Object
+    private fun extractCategoryId(category: Any?): Int? {
+        return when (category) {
+            is Number -> category.toInt()
+            is Map<*, *> -> (category["id"] as? Number)?.toInt()
+            else -> null
         }
     }
 }

@@ -7,9 +7,9 @@ import retrofit2.http.Query
 
 interface WgerApiService {
 
-    @GET("api/v2/exercise/")
+    @GET("api/v2/exerciseinfo/")
     suspend fun getExercises(
-        @Query("language") language: Int = 2,
+        @Query("language") language: Int? = null,
         @Query("limit") limit: Int = 100,
         @Query("offset") offset: Int = 0,
         @Query("category") categoryId: Int? = null

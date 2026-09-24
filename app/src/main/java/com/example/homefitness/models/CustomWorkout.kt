@@ -1,8 +1,9 @@
 package com.example.homefitness.models
 
 data class CustomWorkout(
-    var id: String = "",
-    var name: String = "",
-    var description: String = "",
-    var exercises: List<Int> = emptyList()
+    val id: String = "",
+    val name: String = "",
+    val description: String = "",
+    val exerciseCount: Int = 0,
+    val exercises: List<Int> = emptyList()
 )
