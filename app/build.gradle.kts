@@ -44,6 +44,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     //Retrofit & Gson
     implementation("com.squareup.retrofit2:retrofit:2.11.0")

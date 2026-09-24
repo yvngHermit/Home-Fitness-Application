@@ -2,8 +2,6 @@ package com.example.homefitness
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -40,76 +38,68 @@ class StartWorkoutActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         exerciseId = intent.getIntExtra("exerciseId", -1)
-        exerciseName = intent.getStringExtra("exerciseName") ?: "Workout"
+
+        // Ensure a valid display name is used if intent extra was empty
+        val rawName = intent.getStringExtra("exerciseName")
+        exerciseName = if (!rawName.isNullOrBlank()) rawName else "Exercise #$exerciseId"
 
         binding.workoutTitle.text = exerciseName
         binding.currentExerciseName.text = exerciseName
 
         binding.exerciseProgressText.text = "Exercise 1"
-        binding.workoutProgressBar.max = 100
+        binding.workoutProgressBar.max = 60
         binding.workoutProgressBar.progress = 0
 
-        binding.repsText.text = "10 reps"
-        binding.weightText.text = "Bodyweight"
+        // Handle Back button click
+        binding.backButton.setOnClickListener {
+            finish()
+        }
 
-        // Safely set exercise information if the view is a TextView or contains one
-        val infoDescription = intent.getStringExtra("exerciseDescription") ?: "Complete this exercise."
-        val infoView = binding.root.findViewById<TextView>(R.id.exerciseInformation)
-        infoView?.text = infoDescription
-
-        // Setup pause button safely regardless of layout container type
-        val pauseBtn = binding.root.findViewById<Button>(R.id.pauseButton)
-            ?: binding.root.findViewById<TextView>(R.id.pauseButton)
-
+        // Handle Pause / Resume toggle button
         binding.pauseButton.setOnClickListener {
-            toggleTimer(pauseBtn)
+            toggleTimer()
         }
 
         binding.nextButton.setOnClickListener {
             completeWorkout()
         }
 
-        startTimer(pauseBtn)
+        startTimer()
     }
 
-    private fun startTimer(pauseBtn: Any?) {
+    private fun startTimer() {
         timer?.cancel()
         isPaused = false
 
-        updateButtonText(pauseBtn, "Pause")
+        // Update ImageButton icon to Pause
+        binding.pauseButton.setImageResource(android.R.drawable.ic_media_pause)
 
         timer = object : CountDownTimer(timeRemaining, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 timeRemaining = millisUntilFinished
                 updateTimerText()
 
-                val progress = (60_000L - millisUntilFinished).toInt()
-                binding.workoutProgressBar.progress = progress * 100 / 60_000
+                val elapsedSeconds = ((60_000L - millisUntilFinished) / 1000).toInt()
+                binding.workoutProgressBar.progress = elapsedSeconds
             }
 
             override fun onFinish() {
                 timeRemaining = 0
                 updateTimerText()
-                binding.workoutProgressBar.progress = 100
+                binding.workoutProgressBar.progress = 60
                 completeWorkout()
             }
         }.start()
     }
 
-    private fun toggleTimer(pauseBtn: Any?) {
+    private fun toggleTimer() {
         if (isPaused) {
-            startTimer(pauseBtn)
+            startTimer()
         } else {
             timer?.cancel()
             isPaused = true
-            updateButtonText(pauseBtn, "Resume")
-        }
-    }
-
-    private fun updateButtonText(btnView: Any?, text: String) {
-        when (btnView) {
-            is Button -> btnView.text = text
-            is TextView -> btnView.text = text
+            // Update ImageButton icon to Play/Resume
+            binding.pauseButton.setImageResource(android.R.drawable.ic_media_play)
         }
     }
 
@@ -118,12 +108,11 @@ class StartWorkoutActivity : AppCompatActivity() {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
 
-        binding.timerText.text = String.format(
-            Locale.getDefault(),
-            "%02d:%02d",
-            minutes,
-            remainingSeconds
-        )
+        binding.timerText.text = if (minutes > 0) {
+            String.format(Locale.getDefault(), "%02d:%02d", minutes, remainingSeconds)
+        } else {
+            String.format(Locale.getDefault(), "%02d", remainingSeconds)
+        }
     }
 
     private fun completeWorkout() {

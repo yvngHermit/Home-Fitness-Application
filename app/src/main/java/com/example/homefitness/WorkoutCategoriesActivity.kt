@@ -2,6 +2,7 @@ package com.example.homefitness
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.homefitness.databinding.ActivityWorkoutCategoriesBinding
@@ -21,6 +22,12 @@ class WorkoutCategoriesActivity : AppCompatActivity() {
 
         // Setup bottom navigation directly
         setupBottomNavigation()
+
+        // Navigate to Custom Workout Page
+        val customWorkoutBtn = binding.root.findViewById<Button>(R.id.customWorkoutButton)
+        customWorkoutBtn?.setOnClickListener {
+            startActivity(Intent(this, CustomWorkoutsActivity::class.java))
+        }
 
         // Set up click listeners for workout categories
         binding.fullBodyCard?.setOnClickListener {
@@ -52,10 +59,10 @@ class WorkoutCategoriesActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> {
                     startActivity(Intent(this, HomeActivity::class.java))
-                    finish() // Optional: closes categories so back button returns home cleanly
+                    finish()
                     true
                 }
-                R.id.nav_workouts -> true // Already on Workout Categories screen
+                R.id.nav_workouts -> true // Already on categories screen
                 else -> true
             }
         }

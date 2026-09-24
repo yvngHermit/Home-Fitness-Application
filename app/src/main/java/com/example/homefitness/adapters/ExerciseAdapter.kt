@@ -37,19 +37,26 @@ class ExerciseAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(exercise: WgerExercise) {
-            // Bind Name
-            binding.exerciseName.text = exercise.name
+            // Display valid exercise name, or fall back to ID / default title if empty or null
+            val displayName = if (!exercise.name.isNullOrBlank()) {
+                exercise.name
+            } else if (exercise.id != null) {
+                "Exercise #${exercise.id}"
+            } else {
+                "Fitness Exercise"
+            }
+            binding.exerciseName.text = displayName
 
-            // Clean description text from HTML tags to show under Muscle/Category
-            val cleanDescription = exercise.description
+            // Clean HTML tags safely from description
+            val cleanDescription = (exercise.description ?: "")
                 .replace(Regex("<[^>]*>"), "")
                 .trim()
 
-            // Bind to exerciseMuscle layout view
+            // Bind description or Category ID to exerciseMuscle view
             binding.exerciseMuscle.text = if (cleanDescription.isNotEmpty()) {
                 cleanDescription
             } else {
-                "Category ID: ${exercise.category}"
+                "Category ID: ${exercise.category ?: "N/A"}"
             }
 
             // Set default text for equipment view
