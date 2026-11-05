@@ -221,7 +221,7 @@
         android:id="@+id/timerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SEC"
+        android:text="SUGGESTED TARGET"
         android:textColor="#777777"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="@id/timerText"

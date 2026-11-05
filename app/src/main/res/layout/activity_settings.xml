@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/settings" android:textSize="26sp" android:textStyle="bold" android:textColor="#2D7138"/>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/language_settings" android:textStyle="bold" android:layout_marginTop="24dp"/><Spinner android:id="@+id/languageSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/language_options"/>
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/food_api_key" android:textStyle="bold" android:layout_marginTop="24dp"/><EditText android:id="@+id/usdaApiKeyInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="@string/food_api_key_hint" android:inputType="text"/><TextView android:id="@+id/getApiKeyText" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/get_api_key" android:clickable="true" android:focusable="true" android:textColor="#2D7138" android:layout_marginTop="4dp"/>
-    <Button android:id="@+id/saveSettingsButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/save" android:backgroundTint="#55CC32" android:textColor="#111111" android:layout_marginTop="20dp"/><Button android:id="@+id/backSettingsButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/back"/>
-</LinearLayout></ScrollView>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F5F8F0">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp">
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/settings" android:textSize="28sp" android:textStyle="bold" android:textColor="#245B36"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="APP PREFERENCES" android:textStyle="bold" android:textColor="#245B36" android:layout_marginTop="22dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/language_settings" android:layout_marginTop="12dp"/>
+        <Spinner android:id="@+id/languageSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/language_options"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/theme_settings" android:layout_marginTop="12dp"/>
+        <Spinner android:id="@+id/themeSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/theme_options"/>
+        <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/notificationsSwitch" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/notifications_enabled" android:layout_marginTop="12dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="NUTRITION GOALS" android:textStyle="bold" android:textColor="#245B36" android:layout_marginTop="26dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Daily calorie target (kcal)" android:layout_marginTop="10dp"/>
+        <EditText android:id="@+id/calorieTargetInput" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" android:hint="2000"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Weight measurement preference" android:layout_marginTop="10dp"/>
+        <Spinner android:id="@+id/weightUnitSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/weight_units"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MEAL SCHEDULE" android:textStyle="bold" android:textColor="#245B36" android:layout_marginTop="26dp"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Breakfast (05:00–10:30)" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/breakfastTimeSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/breakfast_times"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Lunch (11:00–15:30)" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/lunchTimeSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/lunch_times"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Dinner (16:00–22:00)" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/dinnerTimeSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/dinner_times"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="WORKOUT REMINDERS" android:textStyle="bold" android:textColor="#245B36" android:layout_marginTop="26dp"/>
+        <com.google.android.material.materialswitch.MaterialSwitch android:id="@+id/workoutReminderSwitch" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Daily workout reminder"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Reminder time" android:layout_marginTop="8dp"/>
+        <Spinner android:id="@+id/workoutTimeSpinner" android:layout_width="match_parent" android:layout_height="wrap_content" android:entries="@array/workout_times"/>
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ACCOUNT &amp; PRIVACY" android:textStyle="bold" android:textColor="#245B36" android:layout_marginTop="26dp"/>
+        <Button android:id="@+id/privacyInfoButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Privacy information" android:backgroundTint="#E8EFE3" android:textColor="#245B36"/>
+        <Button android:id="@+id/settingsSignOutButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sign_out" android:backgroundTint="#E8EFE3" android:textColor="#245B36"/>
+        <Button android:id="@+id/saveSettingsButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/save" android:backgroundTint="#A8DF3D" android:textColor="#173D25" android:layout_marginTop="26dp"/>
+        <Button android:id="@+id/backSettingsButton" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/back" android:backgroundTint="#245B36"/>
+    </LinearLayout>
+</ScrollView>

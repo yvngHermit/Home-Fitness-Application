@@ -9,7 +9,7 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#F5F8F0">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -275,6 +275,58 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:id="@+id/homeUpperBodyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_home_category"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="18dp"
+                android:text="Upper Body  •  Chest, arms and back"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/homeLowerBodyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_home_category"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="18dp"
+                android:text="Lower Body  •  Legs and glutes"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/homeCoreCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_home_category"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="18dp"
+                android:text="Core  •  Abs and stability"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/homeFullBodyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_home_category"
+                android:clickable="true"
+                android:focusable="true"
+                android:padding="18dp"
+                android:text="Full Body  •  Complete workouts"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
