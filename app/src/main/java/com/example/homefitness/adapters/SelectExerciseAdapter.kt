@@ -38,10 +38,7 @@ class SelectExerciseAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(exercise: WgerExercise) {
-            val name = exercise.name.takeIf { !it.isNullOrBlank() }
-                ?: "Exercise #${exercise.id ?: 0}"
-
-            binding.exerciseName.text = name
+            binding.exerciseName.text = exercise.name ?: "Exercise"
 
             val isSelected = exercise.id != null && selectedIds.contains(exercise.id)
             binding.exerciseCheckBox.isChecked = isSelected

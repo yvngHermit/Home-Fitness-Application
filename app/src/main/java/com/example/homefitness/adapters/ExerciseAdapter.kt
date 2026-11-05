@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.homefitness.databinding.ItemExerciseBinding
 import com.example.homefitness.models.WgerExercise
+import com.bumptech.glide.Glide
 
 class ExerciseAdapter(
     private val onExerciseClick: (WgerExercise) -> Unit
@@ -37,30 +38,27 @@ class ExerciseAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(exercise: WgerExercise) {
-            // Display valid exercise name, or fall back to ID / default title if empty or null
-            val displayName = if (!exercise.name.isNullOrBlank()) {
-                exercise.name
-            } else if (exercise.id != null) {
-                "Exercise #${exercise.id}"
-            } else {
-                "Fitness Exercise"
-            }
-            binding.exerciseName.text = displayName
+            binding.exerciseName.text = exercise.name ?: "Exercise"
+            // Category IDs and long API descriptions are intentionally not shown.
+            binding.exerciseMuscle.visibility = android.view.View.GONE
 
-            // Clean HTML tags safely from description
-            val cleanDescription = (exercise.description ?: "")
-                .replace(Regex("<[^>]*>"), "")
-                .trim()
+            // Show equipment details and the exercise image supplied by wger, when available.
+            binding.exerciseEquipment.text = exercise.equipment
+                ?.mapNotNull { it.name }
+                ?.joinToString()
+                ?.takeIf { it.isNotBlank() }
+                ?.let { "Equipment: $it" } ?: "Bodyweight / equipment not listed"
 
-            // Bind description or Category ID to exerciseMuscle view
-            binding.exerciseMuscle.text = if (cleanDescription.isNotEmpty()) {
-                cleanDescription
-            } else {
-                "Category ID: ${exercise.category ?: "N/A"}"
-            }
+            val imageUrl = exercise.images.orEmpty()
+                .firstOrNull { it.isMain }?.preferredUrl()
+                ?: exercise.images.orEmpty().firstOrNull()?.preferredUrl()
 
-            // Set default text for equipment view
-            binding.exerciseEquipment.text = "Tap to view details"
+            Glide.with(binding.exerciseImage)
+                .load(imageUrl)
+                .placeholder(com.example.homefitness.R.drawable.ic_workout)
+                .error(com.example.homefitness.R.drawable.ic_workout)
+                .centerCrop()
+                .into(binding.exerciseImage)
 
             binding.root.setOnClickListener {
                 onExerciseClick(exercise)

@@ -1,7 +1,20 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
 }
+
+// Developer-only configuration. local.properties is excluded from Git.
+val localConfig = Properties()
+val localConfigFile = rootProject.file("local.properties")
+if (localConfigFile.exists()) {
+    localConfigFile.inputStream().use { localConfig.load(it) }
+}
+val usdaApiKey = localConfig.getProperty("USDA_API_KEY", "")
+    .replace("\\", "\\\\")
+    .replace("\"", "\\\"")
+
 
 android {
     namespace = "com.example.homefitness"
@@ -15,12 +28,14 @@ android {
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "USDA_API_KEY", "\"$usdaApiKey\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     buildTypes {
         release {
@@ -45,13 +60,15 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     //Retrofit & Gson
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
-    //Firebase (Authentication & Firestore)
+    //Firebase (Authentication, Firestore and push notifications)
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+    implementation("com.google.firebase:firebase-messaging")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("androidx.credentials:credentials:1.3.0")

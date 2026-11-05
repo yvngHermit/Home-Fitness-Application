@@ -15,9 +15,6 @@
     <string name="search_food">Search foods</string>
     <string name="search">Search</string>
     <string name="add_to_diary">Add to today</string>
-    <string name="food_api_key">USDA API key</string>
-    <string name="food_api_key_hint">Paste your FoodData Central API key</string>
-    <string name="get_api_key">Get a free key at fdc.nal.usda.gov</string>
     <string name="onboarding_title">Tell us about your goals</string>
     <string name="fitness_goal">What is your main fitness goal?</string>
     <string name="experience_level">Fitness experience</string>
@@ -116,4 +113,13 @@
 
     <string name="nutrition_suggestions">Suggestions based on your food preferences</string>
     <string name="suggest_foods">Suggest foods for me</string>
+    <string name="log_as_eaten">I ate this (100 g)</string>
+    <string name="theme_settings">App theme</string>
+    <string name="theme_system">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="notifications_enabled">Push notifications</string>
+    <string name="notifications_description">Allow Home Fitness to show workout reminders and updates.</string>
+    <string name="notification_channel_name">Home Fitness updates</string>
+    <string name="notification_channel_description">Workout reminders and Home Fitness updates.</string>
 </resources>

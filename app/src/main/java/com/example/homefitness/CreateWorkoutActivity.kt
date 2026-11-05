@@ -17,6 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
+import java.util.Locale
 
 class CreateWorkoutActivity : AppCompatActivity() {
 
@@ -67,7 +68,7 @@ class CreateWorkoutActivity : AppCompatActivity() {
             try {
                 android.util.Log.d("API_TEST", "Sending request to Wger exerciseinfo API...")
 
-                val response = RetrofitInstance.wgerApi.getExercises(limit = 50)
+                val response = RetrofitInstance.wgerApi.getExercises(language = 2, limit = 100)
 
                 android.util.Log.d("API_TEST", "Response Code: ${response.code()}")
 
@@ -76,7 +77,7 @@ class CreateWorkoutActivity : AppCompatActivity() {
                     android.util.Log.d("API_TEST", "Total items returned: ${rawExercises.size}")
 
                     // Filter out any items without a valid name (using our custom getter)
-                    val validExercises = rawExercises.filter { !it.name.isNullOrBlank() }
+                    val validExercises = rawExercises.filter { !it.name.isNullOrBlank() && it.id != null }.distinctBy { it.id }
                     run { val cache = ExerciseCache(applicationContext); cache.save("wger_creator", validExercises); cache.close() }
                     android.util.Log.d("API_TEST", "Valid items count: ${validExercises.size}")
 
@@ -91,14 +92,14 @@ class CreateWorkoutActivity : AppCompatActivity() {
                     }
                 } else {
                     val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_creator").ifEmpty { cache.read("wger_all") }; cache.close(); items }
-                    if (cached.isNotEmpty()) selectAdapter.submitList(cached)
+                    if (cached.isNotEmpty()) selectAdapter.submitList(cached.filter { !it.name.isNullOrBlank() && it.id != null }.distinctBy { it.id })
                     else Toast.makeText(this@CreateWorkoutActivity, "Server Error: ${response.code()}", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 android.util.Log.e("API_TEST", "Network Call Failed", e)
                 val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_creator").ifEmpty { cache.read("wger_all") }; cache.close(); items }
                 if (cached.isNotEmpty()) {
-                    selectAdapter.submitList(cached)
+                    selectAdapter.submitList(cached.filter { it.id != null && !it.name.isNullOrBlank() }.distinctBy { it.id })
                     Toast.makeText(this@CreateWorkoutActivity, "Showing saved exercises (offline)", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(this@CreateWorkoutActivity, "No saved exercises available offline", Toast.LENGTH_LONG).show()
@@ -106,6 +107,7 @@ class CreateWorkoutActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun saveWorkout() {
         val name = binding.workoutNameInput.text.toString().trim()
