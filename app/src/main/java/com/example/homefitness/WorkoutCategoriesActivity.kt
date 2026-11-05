@@ -63,7 +63,10 @@ class WorkoutCategoriesActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_workouts -> true // Already on categories screen
-                else -> true
+                R.id.nav_nutrition -> { startActivity(Intent(this, NutritionActivity::class.java)); true }
+                R.id.nav_progress -> { startActivity(Intent(this, ProgressActivity::class.java)); true }
+                R.id.nav_profile -> { startActivity(Intent(this, ProfileActivity::class.java)); true }
+                else -> false
             }
         }
     }

@@ -10,7 +10,7 @@ object RetrofitInstance {
     private const val BASE_URL = "https://wger.de/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = HttpLoggingInterceptor.Level.BASIC
     }
 
     private val client = OkHttpClient.Builder()

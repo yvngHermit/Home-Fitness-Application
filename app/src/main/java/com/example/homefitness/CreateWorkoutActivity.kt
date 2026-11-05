@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homefitness.adapters.SelectExerciseAdapter
 import com.example.homefitness.api.RetrofitInstance
 import com.example.homefitness.databinding.ActivityCreateWorkoutBinding
+import com.example.homefitness.data.ExerciseCache
 import com.example.homefitness.models.CustomWorkout
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
@@ -76,6 +77,7 @@ class CreateWorkoutActivity : AppCompatActivity() {
 
                     // Filter out any items without a valid name (using our custom getter)
                     val validExercises = rawExercises.filter { !it.name.isNullOrBlank() }
+                    run { val cache = ExerciseCache(applicationContext); cache.save("wger_creator", validExercises); cache.close() }
                     android.util.Log.d("API_TEST", "Valid items count: ${validExercises.size}")
 
                     if (validExercises.isNotEmpty()) {
@@ -88,19 +90,19 @@ class CreateWorkoutActivity : AppCompatActivity() {
                         ).show()
                     }
                 } else {
-                    Toast.makeText(
-                        this@CreateWorkoutActivity,
-                        "Server Error: ${response.code()}",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_creator").ifEmpty { cache.read("wger_all") }; cache.close(); items }
+                    if (cached.isNotEmpty()) selectAdapter.submitList(cached)
+                    else Toast.makeText(this@CreateWorkoutActivity, "Server Error: ${response.code()}", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 android.util.Log.e("API_TEST", "Network Call Failed", e)
-                Toast.makeText(
-                    this@CreateWorkoutActivity,
-                    "Network Exception: ${e.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
+                val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_creator").ifEmpty { cache.read("wger_all") }; cache.close(); items }
+                if (cached.isNotEmpty()) {
+                    selectAdapter.submitList(cached)
+                    Toast.makeText(this@CreateWorkoutActivity, "Showing saved exercises (offline)", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this@CreateWorkoutActivity, "No saved exercises available offline", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

@@ -1,0 +1,8 @@
+<resources>
+<string-array name="goal_options"><item>@string/goal_general</item><item>@string/goal_lose</item><item>@string/goal_muscle</item><item>@string/goal_endurance</item></string-array>
+<string-array name="experience_options"><item>@string/experience_beginner</item><item>@string/experience_intermediate</item><item>@string/experience_advanced</item></string-array>
+<string-array name="equipment_options"><item>@string/equipment_none</item><item>@string/equipment_home</item><item>@string/equipment_gym</item></string-array>
+<string-array name="days_options"><item>1</item><item>2</item><item>3</item><item>4</item><item>5</item><item>6</item><item>7</item></string-array>
+<string-array name="minutes_options"><item>15</item><item>20</item><item>30</item><item>45</item><item>60</item><item>90</item></string-array>
+<string-array name="diet_options"><item>@string/diet_none</item><item>@string/diet_vegetarian</item><item>@string/diet_vegan</item><item>@string/diet_pescatarian</item><item>@string/diet_halal</item><item>@string/diet_kosher</item></string-array>
+</resources>

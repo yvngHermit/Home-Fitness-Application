@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Back"
+        android:contentDescription="@string/back"
         android:padding="12dp"
         android:src="@drawable/ic_back"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +39,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
-        android:text="Workout Categories"
+        android:text="@string/workout_categories"
         android:textColor="#1F2933"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -90,7 +90,7 @@
                         android:id="@+id/fullBodyIcon"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Full Body"/>
+                        android:contentDescription="@string/full_body"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -102,7 +102,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Full Body"
+                            android:text="@string/full_body"
                             android:textColor="#1F2933"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -111,7 +111,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="Build overall strength"
+                            android:text="@string/build_strength"
                             android:textColor="#777777"
                             android:textSize="13sp" />
 
@@ -149,7 +149,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Upper Body" />
+                        android:contentDescription="@string/upper_body" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -161,7 +161,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Upper Body"
+                            android:text="@string/upper_body"
                             android:textColor="#1F2933"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -170,7 +170,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="Chest, Back, Arms"
+                            android:text="@string/chest_back_arms"
                             android:textColor="#777777"
                             android:textSize="13sp" />
 
@@ -208,7 +208,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Lower Body"/>
+                        android:contentDescription="@string/lower_body"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -220,7 +220,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lower Body"
+                            android:text="@string/lower_body"
                             android:textColor="#1F2933"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -229,7 +229,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
-                            android:text="Legs, Glutes, Calves"
+                            android:text="@string/legs_glutes_calves"
                             android:textColor="#777777"
                             android:textSize="13sp" />
 
@@ -267,7 +267,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Core"/>
+                        android:contentDescription="@string/core"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -279,7 +279,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Core"
+                            android:text="@string/core"
                             android:textColor="#1F2933"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -326,7 +326,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:contentDescription="Cardio"/>
+                        android:contentDescription="@string/cardio"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -338,7 +338,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Cardio"
+                            android:text="@string/cardio"
                             android:textColor="#1F2933"
                             android:textSize="17sp"
                             android:textStyle="bold" />
@@ -376,7 +376,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
-        android:text="Create Workout"
+        android:text="@string/create_workout_title"
         android:textColor="#000"
         android:textStyle="bold"
         android:layout_marginBottom="10dp"

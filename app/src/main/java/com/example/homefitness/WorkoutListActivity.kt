@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homefitness.adapters.ExerciseAdapter
 import com.example.homefitness.api.RetrofitInstance
 import com.example.homefitness.databinding.ActivityWorkoutListBinding
+import com.example.homefitness.data.ExerciseCache
 import com.example.homefitness.models.WgerExercise
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.launch
@@ -66,7 +67,10 @@ class WorkoutListActivity : AppCompatActivity() {
                     finish()
                     true
                 }
-                else -> true
+                R.id.nav_nutrition -> { startActivity(Intent(this, NutritionActivity::class.java)); finish(); true }
+                R.id.nav_progress -> { startActivity(Intent(this, ProgressActivity::class.java)); finish(); true }
+                R.id.nav_profile -> { startActivity(Intent(this, ProfileActivity::class.java)); finish(); true }
+                else -> false
             }
         }
     }
@@ -85,6 +89,7 @@ class WorkoutListActivity : AppCompatActivity() {
 
                 if (response.isSuccessful && response.body() != null) {
                     var rawExercises = response.body()!!.results
+                    run { val cache = ExerciseCache(applicationContext); cache.save("wger_category_${category.lowercase()}", rawExercises); cache.close() }
 
                     // Filter valid named exercises
                     var validExercises = rawExercises.filter { !it.name.isNullOrBlank() }
@@ -105,18 +110,18 @@ class WorkoutListActivity : AppCompatActivity() {
                     adapter.submitList(validExercises)
                     binding.exerciseCountText.text = "${validExercises.size} exercises"
                 } else {
-                    Toast.makeText(
-                        this@WorkoutListActivity,
-                        "Could not load exercises",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_category_${category.lowercase()}").ifEmpty { cache.read("wger_all") }; cache.close(); items }
+                    val offlineExercises = filterExercisesLocally(cached.filter { !it.name.isNullOrBlank() })
+                    adapter.submitList(offlineExercises)
+                    binding.exerciseCountText.text = "${offlineExercises.size} saved exercises (offline)"
+                    if (offlineExercises.isEmpty()) Toast.makeText(this@WorkoutListActivity, "Could not load exercises", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(
-                    this@WorkoutListActivity,
-                    "Unable to connect to Wger: ${e.localizedMessage}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val cached = run { val cache = ExerciseCache(applicationContext); val items = cache.read("wger_category_${category.lowercase()}").ifEmpty { cache.read("wger_all") }; cache.close(); items }
+                val offlineExercises = filterExercisesLocally(cached.filter { !it.name.isNullOrBlank() })
+                adapter.submitList(offlineExercises)
+                binding.exerciseCountText.text = "${offlineExercises.size} saved exercises (offline)"
+                if (offlineExercises.isEmpty()) Toast.makeText(this@WorkoutListActivity, "No saved exercises available offline", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -126,7 +131,7 @@ class WorkoutListActivity : AppCompatActivity() {
             "Upper Body" -> 11 // Chest
             "Lower Body" -> 9  // Legs
             "Core"       -> 10 // Abs
-            "Cardio"     -> 10 // Fallback ID for Cardio search
+            "Cardio"     -> 15 // Cardio category
             else         -> null // "Full Body" or unspecified -> fetch overall list
         }
     }
@@ -137,7 +142,7 @@ class WorkoutListActivity : AppCompatActivity() {
             "Upper Body" -> exercises.filter { extractCategoryId(it.category) in listOf(8, 11, 12, 13) }
             "Lower Body" -> exercises.filter { extractCategoryId(it.category) in listOf(9, 14) }
             "Core"       -> exercises.filter { extractCategoryId(it.category) == 10 }
-            "Cardio"     -> exercises.filter { extractCategoryId(it.category) in listOf(8, 9, 10) }
+            "Cardio"     -> exercises.filter { extractCategoryId(it.category) == 15 }
             else         -> exercises
         }
     }
