@@ -1,109 +1,42 @@
 package com.example.homefitness
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.CustomCredential
+import androidx.lifecycle.lifecycleScope
 import com.example.homefitness.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
-import kotlin.jvm.java
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
-    private val auth = Firebase.auth
-    private lateinit var googleSignInClient: GoogleSignInClient
-
-    // Modern Activity Result Launcher for Google Sign-In
-    private val googleSignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account = task.getResult(ApiException::class.java)!!
-            firebaseAuthWithGoogle(account.idToken!!)
-        } catch (e: Exception) {
-            Toast.makeText(this, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
+    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val credentialManager by lazy { CredentialManager.create(this) }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Check if user is already signed in
-        if (auth.currentUser != null) {
-            navigateToHome()
+        binding=ActivityMainBinding.inflate(layoutInflater);setContentView(binding.root)
+        if(auth.currentUser!=null){UserNavigation.afterSignIn(this);return}
+        binding.loginButton.setOnClickListener{loginUser()}
+        binding.googleSignInButton.setOnClickListener{signInWithGoogle()}
+        binding.signUpText.setOnClickListener{startActivity(android.content.Intent(this,SignupActivity::class.java))}
+        binding.forgotPasswordText.setOnClickListener { sendPasswordReset() }
+    }
+    private fun loginUser(){val email=binding.emailCheck.text.toString().trim();val password=binding.passwordCheck.text.toString();if(email.isBlank()||password.isBlank()){Toast.makeText(this,"Enter your email and password",Toast.LENGTH_SHORT).show();return};auth.signInWithEmailAndPassword(email,password).addOnSuccessListener{UserNavigation.afterSignIn(this)}.addOnFailureListener{Toast.makeText(this,"Login failed: ${it.localizedMessage}",Toast.LENGTH_LONG).show()}}
+    private fun sendPasswordReset() {
+        val email = binding.emailCheck.text.toString().trim()
+        if (email.isBlank()) {
+            binding.emailCheck.error = getString(R.string.email_label)
             return
         }
-
-        setupGoogleClient()
-
-        binding.loginButton?.setOnClickListener {
-            loginUser()
-        }
-
-        binding.googleSignInButton?.setOnClickListener {
-            val signInIntent = googleSignInClient.signInIntent
-            googleSignInLauncher.launch(signInIntent)
-        }
-
-        binding.signUpText?.setOnClickListener {
-            startActivity(Intent(this, SignupActivity::class.java))
-        }
+        auth.sendPasswordResetEmail(email)
+            .addOnSuccessListener { Toast.makeText(this, "Password reset email sent", Toast.LENGTH_LONG).show() }
+            .addOnFailureListener { Toast.makeText(this, "Could not send reset email: ${it.localizedMessage}", Toast.LENGTH_LONG).show() }
     }
-
-    private fun setupGoogleClient() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("1032494177571-js26ai028tbv1259cas7vm3eu0e4pcni.apps.googleusercontent.com")
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-    }
-
-    private fun loginUser() {
-        val email = binding.emailCheck?.text.toString().trim()
-        val password = binding.passwordCheck?.text.toString().trim()
-
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnSuccessListener {
-                navigateToHome()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Login failed: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-            .addOnSuccessListener {
-                navigateToHome()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Firebase Auth failed: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-    }
-
-    private fun navigateToHome() {
-        startActivity(Intent(this, HomeActivity::class.java))
-        finish()
-    }
+    private fun signInWithGoogle(){lifecycleScope.launch{try{val option=GetGoogleIdOption.Builder().setFilterByAuthorizedAccounts(false).setServerClientId(getString(R.string.default_web_client_id)).setAutoSelectEnabled(false).build();val request=GetCredentialRequest.Builder().addCredentialOption(option).build();val result=credentialManager.getCredential(this@MainActivity,request);val credential=result.credential;if(credential is CustomCredential && credential.type==GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL){val token=GoogleIdTokenCredential.createFrom(credential.data).idToken;auth.signInWithCredential(GoogleAuthProvider.getCredential(token,null)).addOnSuccessListener{UserNavigation.afterSignIn(this@MainActivity)}.addOnFailureListener{Toast.makeText(this@MainActivity,"Google authentication failed: ${it.localizedMessage}",Toast.LENGTH_LONG).show()}}else Toast.makeText(this@MainActivity,"Unsupported Google sign-in credential",Toast.LENGTH_SHORT).show()}catch(e:Exception){Toast.makeText(this@MainActivity,"Google sign-in cancelled or failed: ${e.localizedMessage}",Toast.LENGTH_LONG).show()}}}
 }

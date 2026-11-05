@@ -38,6 +38,7 @@ class CustomWorkoutsActivity : AppCompatActivity() {
         adapter = CustomWorkoutAdapter { workout ->
             val intent = Intent(this, StartWorkoutActivity::class.java)
             intent.putExtra("exerciseId", -1)
+            intent.putExtra("exerciseIds", workout.exercises.toIntArray())
             intent.putExtra("exerciseName", workout.name)
             startActivity(intent)
         }
@@ -68,7 +69,10 @@ class CustomWorkoutsActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_workouts -> true // Already on workouts section
-                else -> true
+                R.id.nav_nutrition -> { startActivity(Intent(this, NutritionActivity::class.java)); true }
+                R.id.nav_progress -> { startActivity(Intent(this, ProgressActivity::class.java)); true }
+                R.id.nav_profile -> { startActivity(Intent(this, ProfileActivity::class.java)); true }
+                else -> false
             }
         }
     }

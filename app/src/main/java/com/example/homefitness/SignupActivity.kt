@@ -2,121 +2,26 @@ package com.example.homefitness
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.lifecycle.lifecycleScope
 import com.example.homefitness.databinding.ActivitySignupBinding
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 class SignupActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivitySignupBinding
-    private lateinit var googleSignInClient: GoogleSignInClient
-
-    private val auth = Firebase.auth
-    private val db = FirebaseFirestore.getInstance()
-
-    // Activity launcher to handle Google Sign-In result
-    private val googleSignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                account?.idToken?.let { idToken ->
-                    firebaseAuthWithGoogle(idToken)
-                } ?: run {
-                    Toast.makeText(this, "Google Sign-In failed: No ID token", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: ApiException) {
-                Log.e("GOOGLE_AUTH", "Google sign in failed", e)
-                Toast.makeText(this, "Google Sign-In error: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            Toast.makeText(this, "Sign-In cancelled", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivitySignupBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Configure Google Sign-In options
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("1032494177571-js26ai028tbv1259cas7vm3eu0e4pcni.apps.googleusercontent.com") // Requires Web Client ID from google-services.json
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        // Set listener on Google Sign-In Button
-        binding.googleSignUpButton.setOnClickListener {
-            signInWithGoogle()
-        }
-
-        binding.loginText?.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-    }
-
-    private fun signInWithGoogle() {
-        val signInIntent = googleSignInClient.signInIntent
-        googleSignInLauncher.launch(signInIntent)
-    }
-
-    private fun firebaseAuthWithGoogle(idToken: String) {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    val user = auth.currentUser
-                    user?.let {
-                        // Create/update user entry in Firestore if needed
-                        saveUserToFirestore(it.uid, it.displayName ?: "User", it.email ?: "")
-                    }
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Authentication Failed: ${task.exception?.localizedMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            }
-    }
-
-    private fun saveUserToFirestore(userId: String, name: String, email: String) {
-        val userMap = hashMapOf(
-            "id" to userId,
-            "name" to name,
-            "email" to email
-        )
-
-        db.collection("users").document(userId)
-            .set(userMap)
-            .addOnSuccessListener {
-                // SUCCESS CONFIRMATION
-                Toast.makeText(this, "Signed in successfully with Google!", Toast.LENGTH_SHORT).show()
-
-                // Navigate to HomeActivity
-                val intent = Intent(this, HomeActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
-                finish()
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to save user data: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
-            }
-    }
+    private val auth by lazy { FirebaseAuth.getInstance() }
+    private val db by lazy { FirebaseFirestore.getInstance() }
+    private val credentialManager by lazy { CredentialManager.create(this) }
+    override fun onCreate(savedInstanceState: Bundle?) { super.onCreate(savedInstanceState);binding=ActivitySignupBinding.inflate(layoutInflater);setContentView(binding.root);binding.signupButton.setOnClickListener{createAccount()};binding.googleSignUpButton.setOnClickListener{signInWithGoogle()};binding.loginText.setOnClickListener{startActivity(Intent(this,MainActivity::class.java));finish()} }
+    private fun createAccount(){val name=binding.nameInput.text.toString().trim();val email=binding.emailInput.text.toString().trim();val password=binding.passwordInput.text.toString();val confirm=binding.confirmPasswordInput.text.toString();if(name.isBlank()||email.isBlank()||password.isBlank()||confirm.isBlank()){Toast.makeText(this,"Complete all fields",Toast.LENGTH_SHORT).show();return};if(password.length<6){binding.passwordInput.error="Use at least 6 characters";return};if(password!=confirm){binding.confirmPasswordInput.error="Passwords do not match";return};auth.createUserWithEmailAndPassword(email,password).addOnSuccessListener{val user=auth.currentUser?:return@addOnSuccessListener;val data=hashMapOf<String,Any>("name" to name,"email" to email,"calorieGoal" to 2000,"caloriesConsumed" to 0,"mealsCalories" to 0,"streak" to 0,"lastWorkoutDate" to "","onboardingCompleted" to false);db.collection("users").document(user.uid).set(data).addOnSuccessListener{UserNavigation.afterSignIn(this)}.addOnFailureListener{Toast.makeText(this,"Account created but profile could not be saved: ${it.localizedMessage}",Toast.LENGTH_LONG).show()}}.addOnFailureListener{Toast.makeText(this,"Registration failed: ${it.localizedMessage}",Toast.LENGTH_LONG).show()}}
+    private fun signInWithGoogle(){lifecycleScope.launch{try{val option=GetGoogleIdOption.Builder().setFilterByAuthorizedAccounts(false).setServerClientId(getString(R.string.default_web_client_id)).setAutoSelectEnabled(false).build();val request=GetCredentialRequest.Builder().addCredentialOption(option).build();val result=credentialManager.getCredential(this@SignupActivity,request);val credential=result.credential;if(credential is CustomCredential&&credential.type==GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL){val token=GoogleIdTokenCredential.createFrom(credential.data).idToken;auth.signInWithCredential(GoogleAuthProvider.getCredential(token,null)).addOnSuccessListener{val user=auth.currentUser?:return@addOnSuccessListener;val ref=db.collection("users").document(user.uid);ref.get().addOnSuccessListener{doc->if(!doc.exists()){ref.set(mapOf("name" to (user.displayName?:"User"),"email" to (user.email?:""),"calorieGoal" to 2000,"caloriesConsumed" to 0,"mealsCalories" to 0,"streak" to 0,"lastWorkoutDate" to "","onboardingCompleted" to false)).addOnSuccessListener{UserNavigation.afterSignIn(this@SignupActivity)}}else UserNavigation.afterSignIn(this@SignupActivity)}}.addOnFailureListener{Toast.makeText(this@SignupActivity,"Google authentication failed: ${it.localizedMessage}",Toast.LENGTH_LONG).show()}}else Toast.makeText(this@SignupActivity,"Unsupported Google sign-in credential",Toast.LENGTH_SHORT).show()}catch(e:Exception){Toast.makeText(this@SignupActivity,"Google sign-in cancelled or failed: ${e.localizedMessage}",Toast.LENGTH_LONG).show()}}}
 }

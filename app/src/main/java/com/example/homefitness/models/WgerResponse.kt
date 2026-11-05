@@ -13,6 +13,7 @@ data class WgerExercise(
     val rawName: String?,
     val description: String? = "",
     val category: Any? = null,
+    val equipment: List<WgerEquipment>? = null,
     val translations: List<WgerTranslation>? = null
 ) {
     // Helper property: Gets raw name, or falls back to the first translation name
@@ -29,3 +30,5 @@ data class WgerTranslation(
     val name: String?,
     val description: String?
 )
+
+data class WgerEquipment(val id: Int? = null, val name: String? = null)

@@ -41,7 +41,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Back"
+                android:contentDescription="@string/back"
                 android:padding="8dp"
                 android:src="@drawable/ic_back"
                 app:tint="@android:color/white" />
@@ -115,7 +115,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:contentDescription="Current exercise"
+        android:contentDescription="@string/current_exercise"
         android:scaleType="centerInside"
         android:src="@drawable/ic_workout"
 
@@ -160,7 +160,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reps"
+                android:text="@string/reps"
                 android:textColor="#777777"
                 android:textSize="13sp" />
 
@@ -239,7 +239,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginBottom="22dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Pause workout"
+        android:contentDescription="@string/pause_workout"
         android:src="@android:drawable/ic_media_pause"
         app:tint="@android:color/black"
 
@@ -256,7 +256,7 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="#A6D83E"
-        android:text="Next  ›"
+        android:text="@string/next"
         android:textAllCaps="false"
         android:textColor="#1F2933"
         android:textSize="14sp"

@@ -19,14 +19,14 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
+            android:contentDescription="@string/back"
             android:src="@drawable/ic_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Create Workout"
+            android:text="@string/create_workout_title"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:hint="Workout Name (e.g., Leg Day)"
+        android:hint="@string/workout_name_hint"
         android:inputType="textCapWords" />
 
     <!-- Workout Description Input -->
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:hint="Description (Optional)"
+        android:hint="@string/description_optional"
         android:inputType="textMultiLine" />
 
     <!-- Exercises Selection List Header -->
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Select Exercises"
+        android:text="@string/select_exercises"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -74,6 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:backgroundTint="#A6D83E"
-        android:text="Save Workout" />
+        android:text="@string/save_workout" />
 
 </LinearLayout>

@@ -41,7 +41,7 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:background="@android:color/transparent"
-                    android:contentDescription="Notifications"
+                    android:contentDescription="@string/notifications"
                     android:src="@drawable/ic_notification" />
             </LinearLayout>
 
@@ -49,7 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Hello, User!"
+                android:id="@+id/greetingText"
+                android:text="@string/hello_user"
                 android:textColor="#111111"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -57,7 +58,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Let's crush your goals today"
+                android:text="@string/goals_today"
                 android:textColor="#777777"
                 android:textSize="10sp" />
 
@@ -72,7 +73,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Today's Workout"
+                    android:text="@string/todays_workout"
                     android:textColor="#FFFFFF"
                     android:textSize="9sp" />
 
@@ -80,7 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="Upper Body Strength"
+                    android:id="@+id/todayWorkoutName"
+                    android:text="@string/upper_body_strength"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -89,7 +91,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="◷  45 min.    ·    Intermediate"
+                    android:id="@+id/todayWorkoutDetails"
+                    android:text="@string/recommended_workout"
                     android:textColor="#FFFFFF"
                     android:textSize="10sp" />
 
@@ -99,7 +102,7 @@
                     android:layout_height="40dp"
                     android:layout_marginTop="10dp"
                     android:backgroundTint="#55FF00"
-                    android:text="Start Workout"
+                    android:text="@string/start_workout"
                     android:textColor="#000000"
                     android:textSize="9sp" />
             </LinearLayout>
@@ -126,7 +129,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Calorie Target"
+                            android:text="@string/calorie_target"
                             android:textColor="#777777"
                             android:textSize="10sp" />
 
@@ -134,7 +137,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="1,320"
+                            android:id="@+id/calorieValueText"
+                            android:text="0"
                             android:textColor="#111111"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -142,6 +146,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/calorieGoalText"
                             android:text="/ 2,000 Kcal"
                             android:textColor="#999999"
                             android:textSize="9sp" />
@@ -152,7 +157,8 @@
                             android:layout_height="8dp"
                             android:layout_marginTop="8dp"
                             android:max="2000"
-                            android:progress="1320"
+                            android:id="@+id/calorieProgress"
+                            android:progress="0"
                             android:progressTint="#55FF00" />
                     </LinearLayout>
 
@@ -165,7 +171,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Meals Today"
+                            android:text="@string/meals_today"
                             android:textColor="#777777"
                             android:textSize="10sp" />
 
@@ -173,7 +179,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="1,180"
+                            android:id="@+id/mealValueText"
+                            android:text="0"
                             android:textColor="#111111"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -181,6 +188,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/mealGoalText"
                             android:text="/ 2,000 Kcal"
                             android:textColor="#999999"
                             android:textSize="9sp" />
@@ -191,7 +199,8 @@
                             android:layout_height="8dp"
                             android:layout_marginTop="8dp"
                             android:max="2000"
-                            android:progress="1180"
+                            android:id="@+id/mealProgress"
+                            android:progress="0"
                             android:progressTint="#A7D63F" />
                     </LinearLayout>
                 </LinearLayout>
@@ -211,7 +220,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Current Streak"
+                            android:text="@string/current_streak"
                             android:textColor="#777777"
                             android:textSize="10sp" />
 
@@ -219,7 +228,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="7 Days"
+                            android:id="@+id/streakText"
+                            android:text="0 Days"
                             android:textColor="#55FF00"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -227,7 +237,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Keep it up!"
+                            android:text="@string/keep_it_up"
                             android:textColor="#111111"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -241,7 +251,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Weight"
+                            android:text="@string/weight"
                             android:textColor="#777777"
                             android:textSize="10sp" />
 
@@ -249,7 +259,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:text="72.4 kg"
+                            android:id="@+id/weightText"
+                            android:text="@string/not_set"
                             android:textColor="#111111"
                             android:textSize="14sp"
                             android:textStyle="bold" />
@@ -257,7 +268,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="-0.6 kg this week"
+                            android:id="@+id/weightChangeText"
+                            android:text="@string/track_weight"
                             android:textColor="#A7D63F"
                             android:textSize="10sp" />
                     </LinearLayout>
