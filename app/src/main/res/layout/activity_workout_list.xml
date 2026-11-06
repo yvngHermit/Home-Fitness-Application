@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:text="@string/full_body"
-        android:textColor="#1F2933"
+        android:textColor="#6AFF00"
         android:textSize="20sp"
         android:textStyle="bold"
 
