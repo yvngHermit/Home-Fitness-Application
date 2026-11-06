@@ -52,10 +52,10 @@ class ProfileActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.profileInitial).text = (user.displayName ?: user.email ?: "U").firstOrNull()?.uppercaseChar()?.toString() ?: "U"
         db.collection("users").document(user.uid).get().addOnSuccessListener { doc ->
             val values = listOf(
-                "Fitness goal" to (doc.getString("fitnessGoal") ?: "Not set"),
-                "Experience" to (doc.getString("experienceLevel") ?: "Not set"),
-                "Equipment" to (doc.getString("equipment") ?: "Not set"),
-                "Diet" to (doc.getString("dietPreference") ?: "Not set")
+                getString(R.string.fitness_goal_label) to (doc.getString("fitnessGoal") ?: getString(R.string.not_set)),
+                getString(R.string.experience_label) to (doc.getString("experienceLevel") ?: getString(R.string.not_set)),
+                getString(R.string.equipment_label) to (doc.getString("equipment") ?: getString(R.string.not_set)),
+                getString(R.string.diet_label) to (doc.getString("dietPreference") ?: getString(R.string.not_set))
             )
             findViewById<TextView>(R.id.profilePreferences).text = values.joinToString("\n") { "${it.first}: ${it.second.replace('_', ' ').replaceFirstChar { c -> c.uppercase() }}" }
             findViewById<TextView>(R.id.profileGoalChip).text = values[0].second.replace('_', ' ')

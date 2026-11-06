@@ -53,20 +53,20 @@ class ProgressActivity : AppCompatActivity() {
             val streak = user.getLong("streak") ?: 0L
             val weight = user.getDouble("weight")
             val unit = getSharedPreferences("home_fitness_settings", MODE_PRIVATE).getString("weight_unit", "kg") ?: "kg"
-            addMetricCard(container, "CURRENT STREAK", "$streak days", "Keep your consistency going")
-            addMetricCard(container, "LATEST WEIGHT", weight?.let { String.format(Locale.getDefault(), "%.1f %s", if (unit == "lb") it * 2.20462 else it, unit) } ?: "Not recorded", "Update your weight in your profile")
+            addMetricCard(container, getString(R.string.current_streak_title), getString(R.string.days_value, streak), getString(R.string.consistency_subtitle))
+            addMetricCard(container, "LATEST WEIGHT", weight?.let { String.format(Locale.getDefault(), "%.1f %s", if (unit == "lb") it * 2.20462 else it, unit) } ?: getString(R.string.not_recorded), getString(R.string.update_weight_subtitle))
         }
         db.collection("users").document(uid).collection("workoutLogs")
             .orderBy("completedAt", com.google.firebase.firestore.Query.Direction.DESCENDING)
             .limit(50).get().addOnSuccessListener { docs ->
                 container.removeAllViews()
                 db.collection("users").document(uid).get().addOnSuccessListener { user ->
-                    addMetricCard(container, "CURRENT STREAK", "${user.getLong("streak") ?: 0L} days", "Your workout consistency")
+                    addMetricCard(container, getString(R.string.current_streak_title), getString(R.string.days_value, user.getLong("streak") ?: 0L), getString(R.string.consistency_subtitle))
                     val unit = getSharedPreferences("home_fitness_settings", MODE_PRIVATE).getString("weight_unit", "kg") ?: "kg"
-                    addMetricCard(container, "LATEST WEIGHT", user.getDouble("weight")?.let { String.format(Locale.getDefault(), "%.1f %s", if (unit == "lb") it * 2.20462 else it, unit) } ?: "Not recorded", "Record your weight regularly")
+                    addMetricCard(container, "LATEST WEIGHT", user.getDouble("weight")?.let { String.format(Locale.getDefault(), "%.1f %s", if (unit == "lb") it * 2.20462 else it, unit) } ?: getString(R.string.not_recorded), getString(R.string.update_weight_subtitle))
                 }
-                addMetricCard(container, "WORKOUTS COMPLETED", docs.size().toString(), "Recent workout history")
-                addSectionTitle(container, "Weekly activity")
+                addMetricCard(container, getString(R.string.workouts_completed_title), docs.size().toString(), getString(R.string.recent_history_subtitle))
+                addSectionTitle(container, getString(R.string.weekly_activity))
                 val dayNames = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
                 val today = java.util.Calendar.getInstance()
@@ -96,16 +96,16 @@ class ProgressActivity : AppCompatActivity() {
                     bars.addView(col)
                 }
                 container.addView(bars)
-                addSectionTitle(container, "Recent workouts")
-                if (docs.isEmpty) addMetricCard(container, "NO WORKOUTS YET", "Your history starts here", "Complete a workout to see your progress.")
+                addSectionTitle(container, getString(R.string.recent_workouts))
+                if (docs.isEmpty) addMetricCard(container, getString(R.string.no_workouts_yet), getString(R.string.history_starts), getString(R.string.complete_to_see_progress))
                 docs.forEach { doc ->
-                    val name = doc.getString("workoutName") ?: "Workout"
+                    val name = doc.getString("workoutName") ?: getString(R.string.workouts)
                     val date = doc.getString("date") ?: ""
                     val count = doc.getLong("exerciseCount") ?: 1L
-                    addMetricCard(container, name, "$date  •  $count exercises", "Completed workout")
+                    addMetricCard(container, name, "$date  •  $count ${getString(R.string.exercises).lowercase(Locale.getDefault())}", getString(R.string.completed_workout))
                 }
             }.addOnFailureListener {
-                addMetricCard(container, "Progress unavailable", "Could not load workout history", "Check your connection and try again.")
+                addMetricCard(container, getString(R.string.progress_unavailable), getString(R.string.history_load_error), getString(R.string.check_connection))
             }
     }
 

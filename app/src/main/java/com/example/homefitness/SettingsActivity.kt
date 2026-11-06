@@ -21,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
     private val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         binding.notificationsSwitch.isChecked = granted
         prefs.edit().putBoolean("notifications_enabled", granted).apply()
-        if (!granted) Toast.makeText(this, "Enable notifications in Android settings to receive reminders.", Toast.LENGTH_LONG).show()
+        if (!granted) Toast.makeText(this, getString(R.string.notification_permission_message), Toast.LENGTH_LONG).show()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity() {
         binding.saveSettingsButton.setOnClickListener {
             val target = binding.calorieTargetInput.text?.toString()?.toIntOrNull()
             if (target == null || target !in 500..10000) {
-                binding.calorieTargetInput.error = "Enter a daily target between 500 and 10,000 kcal"
+                binding.calorieTargetInput.error = getString(R.string.calorie_target_error)
                 return@setOnClickListener
             }
             val language = languages[binding.languageSpinner.selectedItemPosition.coerceIn(0, 2)]
@@ -79,13 +79,13 @@ class SettingsActivity : AppCompatActivity() {
             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language))
 
             MealReminderScheduler.scheduleAll(this)
-            Toast.makeText(this, "Settings saved", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.settings_saved), Toast.LENGTH_SHORT).show()
         }
         binding.privacyInfoButton.setOnClickListener {
             AlertDialog.Builder(this)
-                .setTitle("Privacy information")
-                .setMessage("Home Fitness stores your account profile, workout history and meal diary in Firebase so they can be associated with your account. Notification and appearance preferences are stored on this device. Avoid entering sensitive personal information.")
-                .setPositiveButton("Close", null)
+                .setTitle(R.string.privacy_information)
+                .setMessage(R.string.privacy_message)
+                .setPositiveButton(R.string.close, null)
                 .show()
         }
         binding.settingsSignOutButton.setOnClickListener {
