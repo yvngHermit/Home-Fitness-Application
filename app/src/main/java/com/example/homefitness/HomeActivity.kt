@@ -25,8 +25,22 @@ class HomeActivity : AppCompatActivity() {
     private val db by lazy { FirebaseFirestore.getInstance() }
     private var todayWorkoutId=-1
     private var todayWorkoutName=""
-    override fun onCreate(savedInstanceState:Bundle?){super.onCreate(savedInstanceState);binding=ActivityHomepageBinding.inflate(layoutInflater);setContentView(binding.root);binding.signoutButton.setOnClickListener{auth.signOut();startActivity(Intent(this,MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK));finish()};binding.startWorkoutButton.setOnClickListener{launchWorkout()};setupNavigation();setupCategoryCards();loadUser()}
-    override fun onResume(){super.onResume();if(::binding.isInitialized)loadUser()}
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomepageBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.startWorkoutButton.setOnClickListener { launchWorkout() }
+        setupNavigation()
+        setupCategoryCards()
+        loadUser()
+    }
+
+    override fun onResume(){
+        super.onResume();
+        if(::binding.isInitialized)loadUser()
+    }
     private fun setupNavigation(){val nav=binding.root.findViewById<BottomNavigationView>(R.id.bottomNavigation);nav?.selectedItemId=R.id.nav_home;nav?.setOnItemSelectedListener{item->when(item.itemId){R.id.nav_home->true;R.id.nav_workouts->{startActivity(Intent(this,WorkoutCategoriesActivity::class.java));true};R.id.nav_nutrition->{startActivity(Intent(this,NutritionActivity::class.java));true};R.id.nav_progress->{startActivity(Intent(this,ProgressActivity::class.java));true};R.id.nav_profile->{startActivity(Intent(this,ProfileActivity::class.java));true};else->false}}}
     private fun setupCategoryCards() {
         val routes: List<Pair<Int, String>> = listOf(
