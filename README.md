@@ -12,6 +12,9 @@ Home Fitness is an Android application built with Kotlin and XML layouts. It bri
 
 The application uses external services for exercise and food information, and Firebase services for account identity and cloud-saved user data.
 
+## Video Link(Multi-language feature fixed)
+https://1drv.ms/v/c/45d47dd60ec206b3/IQBiM9v-rThvQq2psU8rvUKXAV_XQPh3dIALzcSVRyj0vrY?e=gE252E
+
 ## Main goals
 
 - Make workout discovery and workout creation accessible from a single app.
