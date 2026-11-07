@@ -36,7 +36,7 @@ jobs:
           packages: 'platform-tools'
 
       - name: Install Android SDK platform
-        run: sdkmanager "platforms;android-37"
+        run: sdkmanager --channel=3 "platforms;android-37.0"
 
       # 4. Configure Gradle and caching
       - name: Set up Gradle
