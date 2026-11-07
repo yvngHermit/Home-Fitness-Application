@@ -1,7 +1,7 @@
 # Home Fitness
 
 <p align="center">
-  <img src="\drawable\home_fitness_logo.png" alt="Home Fitness logo" width="180" />
+  <img src="c:\Users\tumik\AndroidStudioProjects\HomeFitness\app\src\main\res\drawable\home_fitness_logo.png" alt="Home Fitness logo" width="180" />
 </p>
 
 <p align="center"><strong>A personal fitness companion for workouts, nutrition and progress tracking.</strong></p>
